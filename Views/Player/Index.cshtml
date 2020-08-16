@@ -1,0 +1,107 @@
+﻿@model IEnumerable<WorkDB.Models.Player>
+@using Microsoft.AspNet.Identity;
+@{
+    ViewBag.Title = "Пользователи";
+}
+
+<h2>Пользователи</h2>
+
+
+
+<p>
+    <input class="btn btn-secondary" type="button" value="Доступные аватарки" onclick="location.href='@Url.Action("Index", "Avatar")'">
+    
+</p>
+<div class="row mb-2">
+    <div class="col-md-6">
+        <table class="table">
+            <tr>
+                <th>
+
+                </th>
+                <th>
+                    Команда
+                </th>
+                <th>
+                    Рейтинг
+                </th>
+                <th>
+                </th>
+                <th>
+                </th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.Raw("<img style='width:40px; height:40px;' src=\"data:image/jpeg;base64,"
+                                    + Convert.ToBase64String(item.Avatar.Image) + "\" />")
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Team)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Score)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Role.Name)
+                    </td>
+
+                    <td>
+                        <input class="btn btn-secondary" type="button" value="Изменить" onclick="location.href='@Url.Action("Edit", new { id=item.ID })'">
+                        <input class="btn btn-info" type="button" value="Детали" onclick="location.href='@Url.Action("Details", new { id=item.ID })'">
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+    <div class="col-md-6">
+        <div class="card bg-light mb-3" style="max-width: 70rem;">
+            <canvas class="my-4 chartjs-render-monitor" id="myChart" width="546"
+                    height="230" style="display: block; width: 546px; height: 230px;"></canvas>
+        </div>
+
+    </div>
+</div>
+@{string names = "";
+    string grades = "";
+    foreach (var item in Model)
+    {
+        names = names + item.Team + ",";
+        grades = grades + item.Score + ",";
+    }
+}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+<script>
+    var ctx = document.getElementById("myChart");
+    var array1 = "@string.Join(",",names)";
+    var array2 = [@string.Join(",",grades)];
+    var names = array1.split(",");
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: names,
+            datasets: [{
+                data: array2,
+                lineTension: 0,
+                backgroundColor: '#ffc75e',
+                borderColor: '#ffc75e',
+                borderWidth: 4,
+                pointBackgroundColor: '#ffc75e'
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: false
+                    }
+                }]
+            },
+            legend: {
+                display: false,
+            }
+        }
+    });
+</script>

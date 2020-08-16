@@ -1,0 +1,40 @@
+﻿@model WorkDB.Models.Tournament
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Удаление</h2>
+<p class="error">@ViewBag.ErrorMessage</p>
+<h3>Вы уверены что хотите удалить турнир?</h3>
+<div>
+    <h4>Турнир</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Country)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Country)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Удалить" class="btn btn-danger" />
+            <input class="btn btn-info" type="button" value="Вернуться обратно" onclick="location.href='@Url.Action("Index")'">
+        </div>
+    }
+</div>

@@ -1,0 +1,35 @@
+﻿@model WorkDB.Models.Test
+@{
+    ViewBag.Title = "Game Page";
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+
+<body>
+    <div class="jumbotron">
+        <h1>Great Tournament</h1>
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-4">
+            <h2>Welcome to Great Tournament</h2>
+            <font color="green">Вопрос: </font>
+            @Model.Que
+
+            <!-- new line -->
+            <br />
+
+            <!-- show book price -->
+            <font color="green">Ответ: </font>
+            @Model.Ans
+
+        </div>
+    </div>
+</body>
+</html>

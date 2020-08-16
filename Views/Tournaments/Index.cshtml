@@ -1,0 +1,126 @@
+﻿@model IEnumerable<WorkDB.Models.Tournament>
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Турниры</h2>
+
+<p>
+    <input class="btn btn-primary" type="button" value="Создать турнир" onclick="location.href='@Url.Action("Create")'">
+    <input class="btn btn-secondary" type="button" value="Заявка на турнир" onclick="location.href='@Url.Action("Create","Enrollment")'">
+</p>
+<p></p>
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+<nav class="nav justify-content-center nav-pills flex-column flex-md-row">
+    <a class="nav-link active" href="#now" data-toggle="tab">Будущие турниры</a>
+    <a class="nav-link active" href="#last" data-toggle="tab">Прошедшие турниры</a>
+</nav>
+<div class="tab-content py-5">
+    <div class="tab-pane active" id="now">
+        <h3>Будущие турниры</h3>
+        <div class="album py-5 bg-light">
+            <div class="container">
+                <div class="row">
+                    @foreach (var item in Model)
+                    {
+                        if (item.Date >= DateTime.Now.Date)
+                        {
+                            <div class="col-md-4">
+                                <div class="card mb-4 box-shadow">
+                                    <img class="card-img-top" data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=@Html.DisplayFor(modelItem => item.Title)" alt="Card image cap">
+                                    <div class="card-body">
+                                        <p class="card-text">Тематика: @Html.DisplayFor(modelItem => item.Category.Name) </p>
+                                        <p class="card-text">Описание: @Html.DisplayFor(modelItem => item.Post)</p>
+                                        <p class="card-text">Страна: @Html.DisplayFor(modelItem => item.Country)</p>
+
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div class="btn-group">
+                                                <input class="btn btn-info" type="button" value="Детали" onclick="location.href='@Url.Action("Details", new { id = item.TournamentID })'">
+                                                <input class="btn btn-warning" type="button" value="Удалить" onclick="location.href='@Url.Action("Delete", new { id = item.TournamentID })'">
+                                                <input class="btn btn-success" type="button" value="Играть" onclick="location.href='@Url.Action("Game", new { id = item.CategoryID, id_tour = item.TournamentID })'">
+                                            </div>
+                                            <small class="text-muted">@Html.DisplayFor(modelItem => item.Date)</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="tab-pane" id="last">
+        <h3>Прошедшие турниры </h3>
+        <div class="album py-5 bg-light">
+            <div class="container">
+                <div class="row">
+                    @foreach (var item in Model)
+            {
+                if (item.Date < DateTime.Now.Date)
+                {
+                            <div class="col-md-4">
+                                <div class="card mb-4 box-shadow">
+                                    <img class="card-img-top" data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=@Html.DisplayFor(modelItem => item.Title)" alt="Card image cap">
+                                    <div class="card-body">
+                                        <p class="card-text">Название: @Html.DisplayFor(modelItem => item.Title)</p>
+                                        <p class="card-text">Дата: @Html.DisplayFor(modelItem => item.Date)</p>
+                                        <p class="card-text">Описание: @Html.DisplayFor(modelItem => item.Post)</p>
+                                        <p class="card-text">Страна: @Html.DisplayFor(modelItem => item.Country)</p>
+
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div class="btn-group">
+                                                <input class="btn btn-info" type="button" value="Детали" onclick="location.href='@Url.Action("Details", new { id = item.TournamentID })'">
+                                                <input class="btn btn-warning" type="button" value="Удалить" onclick="location.href='@Url.Action("Delete", new { id = item.TournamentID })'">
+                                            </div>
+                                            <small class="text-muted">@Html.DisplayFor(modelItem => item.Category.Name)</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@*<table class="table">
+        <tr>
+            <th>
+                Название
+            </th>
+            <th>
+                Страна
+            </th>
+            <th>
+                Тема
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Country)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Category.Name)
+                </td>
+                <td>
+                    <input class="btn btn-secondary" type="button" value="Edit" onclick="location.href='@Url.Action("Edit", new { id = item.TournamentID })'">
+                    <input class="btn btn-info" type="button" value="Details" onclick="location.href='@Url.Action("Details", new { id = item.TournamentID })'">
+                    <input class="btn btn-warning" type="button" value="Delete" onclick="location.href='@Url.Action("Delete", new { id = item.TournamentID })'">
+                    <input class="btn btn-success" type="button" value="Game" onclick="location.href='@Url.Action("Game", new { id = item.CategoryID, id_tour = item.TournamentID })'">
+                </td>
+            </tr>
+        }
+    </table>*@

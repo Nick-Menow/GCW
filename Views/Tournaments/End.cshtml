@@ -1,0 +1,102 @@
+﻿@model WorkDB.Models.Tournament
+
+<div>
+    <h4>Tournament</h4>
+    <hr />
+    <div class="row mb-2">
+        <div class="col-md-6">
+            <div class="card flex-md-row mb-4 box-shadow h-md-250">
+                <img class="card-img-top" data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=@Html.DisplayFor(model => model.Title)" alt="Card image cap">
+                <div class="card-body d-flex flex-column align-items-start">
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <canvas class="my-4 chartjs-render-monitor" id="myChart" width="546" height="230" style="display: block; width: 546px; height: 230px;"></canvas>
+        </div>
+    </div>
+    <div class="row mb-2">
+        <div class="col-md-6">
+            <strong class="d-inline-block mb-2 text-primary">@Html.DisplayFor(model => model.Country)</strong>
+            <h3 class="mb-0">
+                <a class="text-dark">@Html.DisplayFor(model => model.Title)</a>
+            </h3>
+            <div class="mb-1 text-muted">@Html.DisplayFor(model => model.Date)</div>
+            <p class="card-text mb-auto">@Html.DisplayFor(model => model.Post)</p>
+            <div>
+                <table class="table">
+                    <tr>
+                        <th>Никнейм</th>
+                        <th>Очки</th>
+                    </tr>
+                    @foreach (var item in Model.Enrollments)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Player.NickName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Grade)
+                            </td>
+                            <td>
+                                <input class="btn btn-warning" type="button" value="Внести результат" onclick="location.href='@Url.Action("Edit_End", new { id = item.EnrollmentID })'">
+
+                            </td>
+                        </tr>
+                    }
+                </table>
+            </div>
+        </div>
+    </div>
+    @{string names = "";
+        string grades = "";
+        foreach (var item in Model.Enrollments)
+        {
+            names = names + item.Player.NickName + ",";
+            grades = grades + item.Grade + ",";
+        }
+    }
+</div>
+
+
+
+
+
+<p>
+    <input class="btn btn-warning" type="button" value="Вернуться к турнирам" onclick="location.href='@Url.Action("Index")'">
+
+</p>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js"></script>
+<script>
+    var ctx = document.getElementById("myChart");
+    var array1 = "@string.Join(",",names)";
+    var array2 = [@string.Join(",",grades)];
+    var names = array1.split(",");
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: names,
+            datasets: [{
+                data: array2,
+                lineTension: 0,
+                backgroundColor: '#007bff',
+                borderColor: '#007bff',
+                borderWidth: 4,
+                pointBackgroundColor: '#007bff'
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: false
+                    }
+                }]
+            },
+            legend: {
+                display: false,
+            }
+        }
+    });
+</script>

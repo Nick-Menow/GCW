@@ -1,0 +1,28 @@
+﻿@model WorkDB.Models.Question
+
+<div>
+    <h4>Вопросы</h4>
+    <hr />
+
+
+    <div class="card text-center">
+        <div class="card-header">
+            Что? Где? Когда?
+        </div>
+        <div class="card-body">
+
+            <h2 class="card-text">@Html.DisplayFor(model => model.Questions)</h2>
+            <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">Ответ</a>
+            <div class="collapse" id="collapseExample">
+                <div class="card card-body">
+                    <h2 class="card-text">@Html.DisplayFor(model => model.Answer)</h2>
+                    <h2 class="card-text">@Html.DisplayFor(model => model.Comment)</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<p>
+    <input class="btn btn-secondary" type="button" value="Следующий вопрос" onclick="location.href='@Url.Action("Game_2", new { id = Model.Id+1, id_tour = ViewBag.ID_tour })'">
+    <input class="btn btn-warning" type="button" value="Вернуться обратно" onclick="location.href='@Url.Action("Index")'"> 
+</p>
